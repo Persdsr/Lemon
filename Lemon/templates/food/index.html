@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+{% load index_tags %}
+{% load static %}
+
+
+
+{% block content %}
+
+{% get_favorite_posts as favorite_posts %}
+
+<div class="container">
+    <h2 class="my__h2">Популярное</h2>
+    <section class="slider">
+        <div class="container">
+            <div class="slider__swiper">
+                <div class="swiper-container swiper1">
+                    <div class="swiper-wrapper">
+                        {% for post in favorite_posts %}
+                        <div class="swiper-slide sp">
+                            <img class="post__favorite__image" src="{{ post.image.url }}" alt="">
+                            <h2 class="title__post">
+                                <a style="color: #921026;" href="{{ post.get_absolute_url }}">
+                                    {{ post.title }}
+                                </a>
+                            </h2>
+
+                            <p class="text__post">
+                                {{ post.description }}
+                            </p>
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="swiper-pagination"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="triple">
+        <div class="container">
+            <div class="triple__row">
+                {% for post in posts %}
+                <div class="triple__column">
+                    <div class="triple__item">
+                        <a href="{{ post.get_absolute_url }}"><img class="triple__img3" src="{{ post.image.url }}"></a>
+                        <a class="triple__title title__text" href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+                        <div class="triple__info">
+                            <div class="triple__info-clock">
+                                <img src="{% static 'img/clock_hour_minute_second_time_timer_watch_icon_123193.png' %}" alt="">
+                            </div>
+                            <span class="span__text">{{ post.time_preparing }}</span>
+                            <div class="triple__info-comment">
+                                <img src="{% static 'img/comment_120216.png' %}" alt="">
+                            </div>
+                            <span class="span__text">{{ post.post_comment.all.count }}</span>
+                            <div class="triple__info-glazok">
+                                <img src="{% static 'img/seo-social-web-network-internet_232_icon-icons.com_61542 (1).png' %}"
+                                     alt="">
+                            </div>
+                            <span class="span__text">{{ post.total_views }}</span>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    <section class="overflow">
+        <div class="container">
+            {% for season in seasons %}
+                <div class="overflow__row">
+                <div class="overflow__column">
+                    <img class="season__image" src="{{ season.image.url }}" alt="">
+                </div>
+                <div class="overflow__column">
+                    <div class="overflow__item">
+                        <h3 class="overflow__title">{{ season.title }}</h3>
+                        <div class="overflow__info">
+                            <div class="overflow__left">
+                                <div class="overflow__left_clock">
+                                    <img src="{% static 'img/clock_hour_minute_second_time_timer_watch_icon_123193.png' %}" alt="">
+                                </div>
+                                <span>{{ season.time_preparing }}</span>
+                                <!--<div class="overflow__left_4">
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                </div>
+                                <span>easy</span>-->
+                            </div>
+                            <div class="overflow__right">
+                                <a href="{% url 'favorite_post' pk=season.id %}" class="overflow__right_button">
+                                    <span>В избранное</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="overflow__text">
+                            <p>
+                                1 (8 ounce) container frozen whipped topping, thawed <br> 20 chocolate round wafers,
+                                divided <br> 1 (7 1/4 ounce) bottle Smucker's® Hot Dark Chocolate Microwaveable Topping,
+                                divided
+                            </p>
+                            <h4>Directions</h4>
+                            <p>
+                                {{ season.description }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+    <article class="duo">
+        <div class="container">
+            <!--<div class="duo__row">
+                <div class="duo__column">
+                    <div class="duo__item">
+                        <div class="duo__bruh">404</div>
+                        <div class="duo__e">
+                            <div class="duo__e-title">Sorry</div>
+                            <div class="duo__e-text">WE COULDN'T FIND THE PAGE</div>
+                            <div class="duo__e-smile">:(</div>
+                        </div>
+                        <a href="" class="duo__button"><span>BACK</span></a>
+                    </div>
+                </div>
+            </div>-->
+        </div>
+    </article>
+    <section class="news">
+        <div class="container">
+            <article class="tags">
+                <div class="blockname-2">Теги</div>
+                <div class="tags__text">
+                    {% for tag in tags %}
+                    <a class="tags__text" href="{% url 'tags_home' tag.slug %}">#{{ tag.name }}</a>
+                    {% endfor %}
+                </div>
+            </article>
+        </div>
+    </section>
+</div>
+{% endblock %}

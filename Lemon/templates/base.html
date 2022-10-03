@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ru">
+<head>
+    <title>Главная страница</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}"/>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width"/>
+</head>
+<body>
+<div class="logo">
+    <img src="{% static 'img/logo1.png' %}" alt="fds">
+</div>
+<header class="header">
+    <div class="container">
+        <div class="header__row">
+            <div>
+                <a href="{% url 'home' %}">
+                    <img src="{% static 'img/logo2.png' %}" alt="">
+                </a>
+            </div>
+            <div class="header__column">
+                <div class="header__item">
+                    <ul class="header__ul">
+                        <li class="header__li">
+                            <a href="{% url 'home' %}">HOME</a>
+                        </li>
+                        <li class="header__li">
+                            <a href="">Recipes</a>
+                            <div class="header__item-hover">
+                                <ul>
+                                    <li><a href="">RECOMMENDED</a></li>
+                                    <li><a href="">POPULAR</a></li>
+                                    <li><a href="">QUICK & EASY</a></li>
+                                    <li><a href="">HEALTHY</a></li>
+                                    <li><a href="">NEWEST</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="header__li">
+                            <a href="">Категории</a>
+                            <div class="header__item-hover">
+                                <ul>
+                                    <li><a href="">RECOMMENDED</a></li>
+                                    <li><a href="">POPULAR</a></li>
+                                    <li><a href="">QUICK & EASY</a></li>
+                                    <li><a href="">HEALTHY</a></li>
+                                    <li><a href="">Еще...</a></li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        {% if user.is_authenticated %}
+                        <li class="header__li">
+                            <a class="" href="">{{ user.username }}</a>
+                            <div class="header__item-hover">
+                                <ul>
+                                    <li><a href="{% url 'profile' %}">Профиль</a></li>
+                                    <li><a href="{% url 'favorite' %}">Избранные</a></li>
+                                    <li><a href="">QUICK & EASY</a></li>
+                                    <li><a href="">HEALTHY</a></li>
+                                    <li><a style="color: red" href="{% url 'logout' %}">Выйти</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+
+            <div class="header__search">
+                <div class="header__item">
+                    <div class="header__search-block">
+                        <form action="{% url 'home' %}" class="search-form" method="get">
+                            <input type="text" class="header__search-text" placeholder="Find a recipe" name="name">
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {% if not user.is_authenticated %}
+            <div class="header__buttons">
+                <a class="header__a" href="{% url 'register' %}"><button class="register__button">Регистрация</button></a>
+                <a class="header__a" href="{% url 'login' %}"><button class="login__button">Войти</button></a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</header>
+<div class="wrapper">
+
+    {% block content %}
+    {% endblock %}
+    <footer class="footer">
+        <div class="footer__container">
+            <div class="footer__row">
+                <div class="footer__logo">
+                    <img src="{% static 'img/logo_5.png' %}" alt="">
+                </div>
+                <div class="footer__ul">
+                    <ul>
+                        <li><a href="">HOME</a></li>
+                        <li><a href="">Recipes</a></li>
+                        <li><a href="">Photo Galleries</a></li>
+                        <li><a href="">Videos</a></li>
+                        <li><a href="">All Categories</a></li>
+                    </ul>
+                </div>
+                <a href="" class="footer__ctulhu">2016-2017 LEMON. All right reserved</a>
+            </div>
+        </div>
+    </footer>
+
+</div>
+<div class="banana"></div>
+<script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
+<script src="{% static 'js/script.js' %}"></script>
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+{% block js %}
+
+{% endblock %}
+</body>
+</html>

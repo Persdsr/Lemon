@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+    <section class="triple">
+        <div class="container">
+            <h1 class="my__h2">Избранные</h1>
+            <div class="triple__row">
+                {% for post in posts %}
+                <div class="triple__column">
+                    <div class="triple__item">
+                        <a href="{{ post.get_absolute_url }}"><img class="triple__img3" src="{{ post.image.url }}"></a>
+                        <a class="triple__title title__text" href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+                        <div class="triple__info">
+                            <div class="triple__info-clock">
+                                <img src="{% static 'img/clock_hour_minute_second_time_timer_watch_icon_123193.png' %}" alt="">
+                            </div>
+                            <span class="span__text">{{ post.time_preparing }}</span>
+                            <div class="triple__info-comment">
+                                <img src="{% static 'img/comment_120216.png' %}" alt="">
+                            </div>
+                            <span class="span__text">{{ post.post_comment.all.count }}</span>
+                            <div class="triple__info-glazok">
+                                <img src="{% static 'img/seo-social-web-network-internet_232_icon-icons.com_61542 (1).png' %}"
+                                     alt="">
+                            </div>
+                            <span class="span__text">{{ post.total_views }}</span>
+                        </div>
+                        <span class="update_status__text"><a href="#" data-url="{% url 'update_favorite_status' pk=post.pk type='delete' %}" class="update_status">Удалить из избранного</a></span>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+
+{% block js %}
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+<script>
+    $('body').on('click', '.update_status', function(event){
+        if (confirm('Вы уверены что хотите удалить пост из избранного?')){
+            var url = $(this).attr('data-url')
+            console.log(url)
+
+            $.ajax({
+                url:url,
+                type: 'GET'
+            })
+        }
+
+    })
+</script>
+
+{% endblock %}
+
+
+{% endblock %}

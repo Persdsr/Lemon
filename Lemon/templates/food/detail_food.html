@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+    <section class="single-post spad">
+        <div class="container">
+            <img class="post__image" src="{{ post.image.url }}">
+            <h2 class="my__h2">Описание</h2>
+
+            <div class="description__content">
+                <span class="post__description">{{ post.description }}</span>
+            </div>
+
+            <div class="post__ingredients">
+                <h1 class="my__h2 post__title">Ингредиенты</h1>
+                <div class="ingredients__block">
+                    <span class="post__text">{{ post.ingredients|safe }}</span>
+                </div>
+            </div>
+            <div>
+                <span class="my__h2 post__title">Шаги</span>
+                <div class="content">
+                    {% for step in post.post_step.all %}
+                    <div class="step__block">
+                        <div class="step__content">
+                            <span class="step__title my__h2">{{ step.title }}</span><br>
+                            <span class="post__text">{{ step.text }}</span><br>
+                            {% if step.image %}
+                                <img class="step__image" src="{{ step.image.url }}" alt="">
+                            {% endif %}
+                            <br>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="comments">
+        <div class="container">
+            <div class="comments__title">Комменитарии</div>
+            <form class="comments__user" action="" method="post">
+                {% csrf_token %}
+                <div class="comments__usericon">
+                    {% if user.avatar %}
+                        <img class="image__comment" src="{{ user.avatar.url }}" alt="">
+                    {% else %}
+                        <img class="image__comment" src="{% static 'img/default_user.png' %}" alt="">
+                    {% endif %}
+                </div>
+                {{ form }}
+                <button class="comments__button"><span>Отравить</span></button>
+            </form>
+        </div>
+    </section>
+    <section class="commentss">
+        <div class="container">
+            {% for comment in post.post_comment.all %}
+            <div class="comment__block">
+                <div class="comment__img">
+                    <img class="comment__avatar" src="{{ comment.author.get_image_url }}" alt="">
+                </div>
+
+                <div class="comment_content">
+                    <span class="comment__author">{{ comment.author }}</span>
+                    <span class="comment__date">{{ comment.date }}</span>
+                    {% if request.user.is_superuser or request.user == comment.author %}
+                    <a href="#" data-url="{% url 'update_comment_status' pk=comment.pk type='delete' %}" class="comment__delete">Удалить</a>
+                    {% endif %}
+                </div>
+                <div class="comment__text__block">
+                    <p class="comment__text">{{ comment.text }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+{% block js %}
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+<script>
+    $('body').on('click', '.comment__delete', function(event){
+        if (confirm('Вы уверены что хотите удалить комментарий?')){
+
+            var url = $(this).attr('data-url')
+            console.log(url)
+
+            $.ajax({
+                url:url,
+                type: 'GET'
+            })
+        }
+
+    })
+</script>
+
+{% endblock %}
+
+{% endblock content %}

@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="block__auth">
+        <section class="forms">
+        <div class="forms__column">
+            <div class="forms__item">
+                <div class="blockname-2">Профиль</div>
+                <form class="forms__register-form" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form }}
+                    <button class="forms__button" type="submit"><span>Сохранить</span></button>
+                </form>
+                </div>
+            </div>
+            <summon-Ctulhu></summon-Ctulhu>
+        </section>
+    </div>
+</div>
+{% endblock %}
+

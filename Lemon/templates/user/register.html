@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="block__auth">
+        <section class="forms">
+        <div class="forms__column">
+            <div class="forms__item">
+                <div class="blockname-2">Sign UP</div>
+                <div class="forms__title">Sign UP for LEMON</div>
+                <form class="forms__register-form" action="{% url 'register' %}" method="post">
+                    {% csrf_token %}
+                    {{ form }}
+                    <button class="forms__button" type="submit"><span>SIGN UP</span></button>
+                </form>
+                <div class="forms__terms">Есть аккаунт?<a href="">Войти</a>
+                </div>
+            </div>
+            <summon-Ctulhu></summon-Ctulhu>
+        </div>
+        </section>
+    </div>
+</div>
+{% endblock %}
