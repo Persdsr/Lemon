@@ -59,6 +59,9 @@
                             </div>
                             <span class="span__text">{{ post.total_views }}</span>
                         </div>
+                        {% for category in post.category.all %}
+                            <span class="my__h2">{{ category.name }}</span>
+                        {% endfor %}
                     </div>
                 </div>
                 {% endfor %}

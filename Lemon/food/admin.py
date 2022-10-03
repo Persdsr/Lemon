@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.utils.safestring import mark_safe
 from django import forms
 
-from .models import Post, PostStep, Comment, Tags, SeasonPost
+from .models import Post, PostStep, Comment, Tags, SeasonPost, Category
 
 
 class PostStepInline(admin.StackedInline):
@@ -36,6 +36,9 @@ class SeasonPostAdmin(admin.ModelAdmin):
 class PostStepAdmin(admin.ModelAdmin):
     pass
 
+@admin.register(Category)
+class PostStepAdmin(admin.ModelAdmin):
+    prepopulated_fields = {'slug': ('name',)}
 
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
@@ -43,4 +46,4 @@ class CommentAdmin(admin.ModelAdmin):
 
 @admin.register(Tags)
 class TagsAdmin(admin.ModelAdmin):
-    pass
+    prepopulated_fields = {'slug': ('name',)}

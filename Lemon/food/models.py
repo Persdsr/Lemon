@@ -32,6 +32,13 @@ class Tags(models.Model):
     def __str__(self):
         return self.name
 
+class Category(models.Model):
+    name = models.CharField(verbose_name='Название', max_length=30)
+    slug = models.SlugField(verbose_name='URL')
+
+    def __str__(self):
+        return self.name
+
 class Post(models.Model):
     """Модель постов"""
     author = models.ForeignKey(User, verbose_name='Автор', on_delete=models.CASCADE, related_name='post_author')
@@ -44,6 +51,7 @@ class Post(models.Model):
     tags = models.ManyToManyField(Tags, related_name='post_tags', blank=True)
     views = models.ManyToManyField(User, verbose_name='post_views', blank=True, related_name='post_views')
     favorite = models.ManyToManyField(User, verbose_name='Добавившие в избранное', blank=True, related_name='favorite_posts')
+    category = models.ManyToManyField(Category, verbose_name='Категория', related_name='post_category')
     slug = models.SlugField(verbose_name='URL')
 
     def get_absolute_url(self):
