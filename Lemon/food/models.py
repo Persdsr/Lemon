@@ -15,14 +15,6 @@ class PostStep(models.Model):
     def __str__(self):
         return f'{self.post} - {self.title}'
 
-class PostView(models.Model):
-    """Модель просмотров на постах"""
-    post = models.ForeignKey('Post', verbose_name='Пост', on_delete=models.CASCADE, related_name='post_view')
-    user = models.ForeignKey(User, verbose_name='Пользователь',
-                             on_delete=models.CASCADE)
-
-    def __str__(self):
-        return str(self.user)
 
 class Tags(models.Model):
     """Теги постов"""
@@ -32,12 +24,20 @@ class Tags(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        verbose_name = 'Тег'
+        verbose_name_plural = 'Теги'
+
 class Category(models.Model):
     name = models.CharField(verbose_name='Название', max_length=30)
     slug = models.SlugField(verbose_name='URL')
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name = 'Категория'
+        verbose_name_plural = 'Категории'
 
 class Post(models.Model):
     """Модель постов"""
@@ -64,6 +64,10 @@ class Post(models.Model):
     def __str__(self):
         return f'{self.title}'
 
+    class Meta:
+        verbose_name = 'Пост'
+        verbose_name_plural = 'Посты'
+
 class SeasonPost(Post):
     """Модель сезонных постов"""
     season_list = (
@@ -74,6 +78,9 @@ class SeasonPost(Post):
     )
     season = models.CharField(verbose_name='Сезон', choices=season_list, max_length=9)
 
+    class Meta:
+        verbose_name = 'Сезонный пост'
+        verbose_name_plural = 'Сезонные посты'
 
 class Comment(models.Model):
     """Комментарии к постам"""
@@ -86,6 +93,8 @@ class Comment(models.Model):
         return f'{self.author}'
 
     class Meta:
+        verbose_name = 'Коммент'
+        verbose_name_plural = 'Комменты'
         ordering = ('-date',)
 
 #class Ip(models.Model):

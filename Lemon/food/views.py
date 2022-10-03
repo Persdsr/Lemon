@@ -8,7 +8,7 @@ from django.views.generic import ListView, DetailView, CreateView
 from django.views.generic.edit import FormMixin
 
 from .forms import CommentForm
-from .models import Post, Comment, PostView, Tags, SeasonPost
+from .models import Post, Comment, Tags, SeasonPost
 from users.forms import RegisterUserForm, LoginUserForm
 
 
@@ -29,7 +29,8 @@ class HomeView(ListView):
         if self.kwargs.get('tags_slug'):
             post = Post.objects.order_by('?').filter(tags__slug=self.kwargs.get('tags_slug')).order_by('-date_create')
         elif 'name' in self.request.GET:
-            post = Post.objects.filter(Q(title__in=self.request.GET.getlist('name')) | (Q(title__iregex=self.request.GET.get('name'))))
+            post = Post.objects.filter(
+                Q(title__in=self.request.GET.getlist('name')) | (Q(title__iregex=self.request.GET.get('name'))))
         else:
             post = Post.objects.order_by('-date_create')
         return post
@@ -86,11 +87,13 @@ class DetailFoodView(DetailView, FormMixin):
     def get_success_url(self, **kwargs):
         return reverse_lazy('detail_food', kwargs={'food_slug': self.get_object().slug})
 
+
 def update_favorite_status(request, pk, type):
     """Изменение с избранными постами"""
     user = request.user
     if type == 'delete':
         user.favorite_posts.remove(Post.objects.get(pk=pk))
+
 
 def update_comment_status(request, pk, type):
     """Изменение с избранными постами"""
@@ -98,6 +101,7 @@ def update_comment_status(request, pk, type):
     if request.user.is_superuser or request.user == comment.author:
         if type == 'delete':
             comment.delete()
+
 
 class FavoriteView(ListView):
     """Страница с избранными постами"""
@@ -108,4 +112,3 @@ class FavoriteView(ListView):
     def get_queryset(self):
         posts = self.request.user.favorite_posts.all()
         return posts
-

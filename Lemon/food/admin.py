@@ -1,4 +1,3 @@
-from ckeditor_uploader.widgets import CKEditorUploadingWidget
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 from django import forms
@@ -8,7 +7,7 @@ from .models import Post, PostStep, Comment, Tags, SeasonPost, Category
 
 class PostStepInline(admin.StackedInline):
     model = PostStep
-    extra = 1
+    extra = 0
 
 
 @admin.register(Post)
