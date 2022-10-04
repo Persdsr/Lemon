@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-{% load static %}
+{% load static index_tags %}
 <html lang="ru">
 <head>
     <title>Главная страница</title>
@@ -38,15 +38,15 @@
                                 </ul>
                             </div>
                         </li>
+                        {% get_category as category %}
                         <li class="header__li">
                             <a href="">Категории</a>
                             <div class="header__item-hover">
                                 <ul>
-                                    <li><a href="">RECOMMENDED</a></li>
-                                    <li><a href="">POPULAR</a></li>
-                                    <li><a href="">QUICK & EASY</a></li>
-                                    <li><a href="">HEALTHY</a></li>
-                                    <li><a href="">Еще...</a></li>
+                                    {% for item in category %}
+                                        <li><a href="{% url 'category' item.slug %}">{{ item.name }}</a></li>
+                                    {% endfor %}
+                                        <li><a href="{% url 'categories' %}">Еще...</a></li>
                                 </ul>
                             </div>
                         </li>

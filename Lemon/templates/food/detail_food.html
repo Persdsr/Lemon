@@ -24,7 +24,7 @@
                     {% for step in post.post_step.all %}
                     <div class="step__block">
                         <div class="step__content">
-                            <span class="step__title my__h2">{{ step.title }}</span><br>
+                            <span class="step__title my__h2">Шаг {{ forloop.counter }}. {{ step.title }}</span><br>
                             <span class="post__text">{{ step.text }}</span><br>
                             {% if step.image %}
                                 <img class="step__image" src="{{ step.image.url }}" alt="">
@@ -66,7 +66,7 @@
                     <span class="comment__author">{{ comment.author }}</span>
                     <span class="comment__date">{{ comment.date }}</span>
                     {% if request.user.is_superuser or request.user == comment.author %}
-                    <a href="#" data-url="{% url 'update_comment_status' pk=comment.pk type='delete' %}" class="comment__delete">Удалить</a>
+                    <a href="{% url 'detail_food' food_slug=post.slug %}" data-url="{% url 'update_comment_status' pk=comment.pk type='delete' %}" class="comment__delete">Удалить</a>
                     {% endif %}
                 </div>
                 <div class="comment__text__block">

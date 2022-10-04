@@ -15,6 +15,9 @@ class PostStep(models.Model):
     def __str__(self):
         return f'{self.post} - {self.title}'
 
+    class Meta:
+        verbose_name = 'Шаг'
+        verbose_name_plural = 'Шаги'
 
 class Tags(models.Model):
     """Теги постов"""
@@ -51,7 +54,7 @@ class Post(models.Model):
     tags = models.ManyToManyField(Tags, related_name='post_tags', blank=True)
     views = models.ManyToManyField(User, verbose_name='post_views', blank=True, related_name='post_views')
     favorite = models.ManyToManyField(User, verbose_name='Добавившие в избранное', blank=True, related_name='favorite_posts')
-    category = models.ManyToManyField(Category, verbose_name='Категория', related_name='post_category')
+    category = models.ForeignKey(Category, verbose_name='Категория', related_name='post_category', on_delete=models.CASCADE)
     slug = models.SlugField(verbose_name='URL')
 
     def get_absolute_url(self):

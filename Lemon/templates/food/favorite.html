@@ -27,8 +27,8 @@
                             </div>
                             <span class="span__text">{{ post.total_views }}</span>
                         </div>
-                        <span class="update_status__text"><a href="#" data-url="{% url 'update_favorite_status' pk=post.pk type='delete' %}" class="update_status">Удалить из избранного</a></span>
                     </div>
+                <span class="update_status__text"><a href="{% url 'favorite' %}" data-url="{% url 'update_favorite_status' pk=post.pk type='delete' %}" class="update_status">Удалить из избранного</a></span>
                 </div>
                 {% endfor %}
             </div>

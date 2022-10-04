@@ -25,9 +25,10 @@
                             </h2>
 
                             <p class="text__post">
-                                {{ post.description }}
+                                {{ post.description|truncatewords:50 }}
                             </p>
                         </div>
+
                         {% endfor %}
                     </div>
 
@@ -59,10 +60,8 @@
                             </div>
                             <span class="span__text">{{ post.total_views }}</span>
                         </div>
-                        {% for category in post.category.all %}
-                            <span class="my__h2">{{ category.name }}</span>
-                        {% endfor %}
                     </div>
+                    <span class="post__category my__h2">{{ post.category.name }}</span>
                 </div>
                 {% endfor %}
             </div>
