@@ -8,7 +8,7 @@ from users.models import User
 class PostStep(models.Model):
     """Модель шагов для постов"""
     post = models.ForeignKey('Post', verbose_name='Пост', on_delete=models.SET_NULL, null=True, related_name='post_step')
-    title = models.CharField(verbose_name='Название шага', max_length=50)
+    title = models.CharField(verbose_name='Название шага', max_length=50, blank=True)
     text = models.TextField(verbose_name='Текс')
     image = models.ImageField(verbose_name='Изображение', upload_to='post_step/', blank=True, null=True)
 
@@ -33,6 +33,8 @@ class Tags(models.Model):
 
 class Category(models.Model):
     name = models.CharField(verbose_name='Название', max_length=30)
+    image = models.ImageField(verbose_name='Изображение', upload_to='category/')
+    is_main = models.BooleanField(verbose_name='На главной', default=False)
     slug = models.SlugField(verbose_name='URL')
 
     def __str__(self):

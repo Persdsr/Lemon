@@ -39,6 +39,7 @@
     </section>
     <section class="triple">
         <div class="container">
+        <h2 class="my__h2">Новое</h2>
             <div class="triple__row">
                 {% for post in posts %}
                 <div class="triple__column">
@@ -67,6 +68,41 @@
             </div>
         </div>
     </section>
+
+    {% for item in categories %}
+    <section class="triple">
+            <div class="container">
+            <h2 class="my__h2">{{ item.name }}</h2>
+                <div class="triple__row">
+                    {% for post in item.post_category.all %}
+                    <div class="triple__column">
+                        <div class="triple__item">
+                            <a href="{{ post.get_absolute_url }}"><img class="triple__img3" src="{{ post.image.url }}"></a>
+                            <a class="triple__title title__text" href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+                            <div class="triple__info">
+                                <div class="triple__info-clock">
+                                    <img src="{% static 'img/clock_hour_minute_second_time_timer_watch_icon_123193.png' %}" alt="">
+                                </div>
+                                <span class="span__text">{{ post.time_preparing }}</span>
+                                <div class="triple__info-comment">
+                                    <img src="{% static 'img/comment_120216.png' %}" alt="">
+                                </div>
+                                <span class="span__text">{{ post.post_comment.all.count }}</span>
+                                <div class="triple__info-glazok">
+                                    <img src="{% static 'img/seo-social-web-network-internet_232_icon-icons.com_61542 (1).png' %}"
+                                         alt="">
+                                </div>
+                                <span class="span__text">{{ post.total_views }}</span>
+                            </div>
+                        </div>
+                        <span class="post__category my__h2">{{ post.category.name }}</span>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+        {% endfor %}
+
     <section class="overflow">
         <div class="container">
             {% for season in seasons %}
@@ -98,12 +134,7 @@
                             </div>
                         </div>
                         <div class="overflow__text">
-                            <p>
-                                1 (8 ounce) container frozen whipped topping, thawed <br> 20 chocolate round wafers,
-                                divided <br> 1 (7 1/4 ounce) bottle Smucker's® Hot Dark Chocolate Microwaveable Topping,
-                                divided
-                            </p>
-                            <h4>Directions</h4>
+                            <h4>Описание</h4>
                             <p>
                                 {{ season.description }}
                             </p>

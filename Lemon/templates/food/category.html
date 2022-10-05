@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block titile %}Категории{% endblock %}
+
+{% block content %}
+    <section class="triple">
+        <div class="container">
+            <h1 class="my__h2">Категории</h1>
+            <div class="triple__row">
+                {% for category in categories %}
+                <div class="triple__column">
+                    <div class="triple__item">
+                        <a href="{% url 'category' category_slug=category.slug %}"><img class="triple__img3" src="{{ category.image.url }}"></a>
+                        <a class="triple__title title__text" href="{% url 'category' category_slug=category.slug %}">{{ category.name }}</a>
+                    </div>
+                    <a href="{% url 'category' category_slug=category.slug %}"><span class="post__category my__h2">{{ category.name }}</span></a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+
+
+
+{% endblock %}

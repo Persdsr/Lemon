@@ -22,7 +22,7 @@ class HomeView(ListView):
         context = super().get_context_data(**kwargs)
         context['tags'] = Tags.objects.all()
         context['seasons'] = SeasonPost.objects.all()
-        context['categories'] = Category.objects.all().distinct()
+        context['categories'] = Category.objects.filter(is_main=True)
         return context
 
     def get_queryset(self):
@@ -32,9 +32,6 @@ class HomeView(ListView):
 
         elif self.kwargs.get('category_slug'):
             post = Post.objects.order_by('?').filter(category__slug=self.kwargs.get('category_slug')).order_by('-date_create')
-
-        elif self.kwargs.get():
-            post = Post.objects.all(category__in=Category.objects.all().distinct())
 
         elif 'name' in self.request.GET:
             post = Post.objects.filter(
@@ -56,14 +53,16 @@ def save_favorite(request, pk):
     return render(request, 'food/index.html', context)
 
 
-def all_categories(request):
-    context = {
-        'tags': Tags.objects.all(),
-        'seasons': SeasonPost.objects.all(),
-        #'posts': Post.objects.filter(category__in=Category.objects.filter(category__name=))
-    }
+class CategoryView(ListView):
+    """Главная страница"""
+    model = Category
+    template_name = 'food/category.html'
+    context_object_name = 'categories'
 
-    return render(request, 'food/index.html', context)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['tags'] = Tags.objects.all()
+        return context
 
 class DetailFoodView(DetailView, FormMixin):
     """детейл для поста"""
