@@ -558,6 +558,21 @@ hzkakdelatcomenti{
   justify-content: center;
   margin-right: 1.7rem;
 }
+
+.overflow__right_button_favorite {
+  width: 10.5rem;
+  height: 2.8rem;
+  border: 1px solid #c2c2c2;
+  align-items: center;
+  justify-content: right;
+  margin-right: 1.7rem;
+  position: absolute;
+}
+
+.overflow__right{
+  margin-left: 15px;
+}
+
 .overflow__right_button span {
   font-family: "Josefin Sans";
   font-size: 1.2rem;

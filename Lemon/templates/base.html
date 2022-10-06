@@ -56,10 +56,9 @@
                             <a class="" href="">{{ user.username }}</a>
                             <div class="header__item-hover">
                                 <ul>
-                                    <li><a href="{% url 'profile' %}">Профиль</a></li>
+                                    <li><a href="">Профиль</a></li>
+                                    <li><a href="{% url 'settings' %}">Настройки</a></li>
                                     <li><a href="{% url 'favorite' %}">Избранные</a></li>
-                                    <li><a href="">QUICK & EASY</a></li>
-                                    <li><a href="">HEALTHY</a></li>
                                     <li><a style="color: red" href="{% url 'logout' %}">Выйти</a></li>
                                 </ul>
                             </div>

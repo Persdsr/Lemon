@@ -6,6 +6,13 @@
     <section class="single-post spad">
         <div class="container">
             <img class="post__image" src="{{ post.image.url }}">
+
+            <div class="overflow__right">
+                <a href="{% url 'favorite_post' pk=post.id %}" class="overflow__right_button">
+                    <span>В избранное</span>
+                </a>
+            </div>
+
             <h2 class="my__h2">Описание</h2>
 
             <div class="description__content">

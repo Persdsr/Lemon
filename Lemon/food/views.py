@@ -17,6 +17,7 @@ class HomeView(ListView):
     model = Post
     template_name = 'food/index.html'
     context_object_name = 'posts'
+    paginate_by = 6
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -26,12 +27,9 @@ class HomeView(ListView):
         return context
 
     def get_queryset(self):
-        """Изменения квери если в запросе есть теги"""
+        """Изменения квери если в запросе есть теги или категории и поиск постов"""
         if self.kwargs.get('tags_slug'):
             post = Post.objects.order_by('?').filter(tags__slug=self.kwargs.get('tags_slug')).order_by('-date_create')
-
-        elif self.kwargs.get('category_slug'):
-            post = Post.objects.order_by('?').filter(category__slug=self.kwargs.get('category_slug')).order_by('-date_create')
 
         elif 'name' in self.request.GET:
             post = Post.objects.filter(
@@ -41,28 +39,18 @@ class HomeView(ListView):
         return post
 
 
-def save_favorite(request, pk):
-    """Сохранить избранные посты"""
-    user = request.user
-    user.favorite_posts.add(Post.objects.get(id=pk))
-    context = {
-        'tags': Tags.objects.all(),
-        'seasons': SeasonPost.objects.all(),
-        'posts': Post.objects.all()
-    }
-    return render(request, 'food/index.html', context)
-
-
-class CategoryView(ListView):
+class CategoryTagView(ListView):
     """Главная страница"""
     model = Category
     template_name = 'food/category.html'
     context_object_name = 'categories'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['tags'] = Tags.objects.all()
-        return context
+    def get_queryset(self):
+        post = Category.objects.order_by('?')
+        if self.kwargs.get('category_slug'):
+            post = Post.objects.filter(category__slug=self.kwargs.get('category_slug'))
+        return post
+
 
 class DetailFoodView(DetailView, FormMixin):
     """детейл для поста"""
@@ -103,6 +91,26 @@ class DetailFoodView(DetailView, FormMixin):
     def get_success_url(self, **kwargs):
         return reverse_lazy('detail_food', kwargs={'food_slug': self.get_object().slug})
 
+class FavoriteView(ListView):
+    """Страница с избранными постами"""
+    template_name = 'food/favorite.html'
+    queryset = Post
+    context_object_name = 'posts'
+
+    def get_queryset(self):
+        posts = self.request.user.favorite_posts.all()
+        return posts
+
+def save_favorite(request, pk):
+    """Сохранить избранные посты"""
+    user = request.user
+    user.favorite_posts.add(Post.objects.get(id=pk))
+    context = {
+        'tags': Tags.objects.all(),
+        'seasons': SeasonPost.objects.all(),
+        'posts': Post.objects.all()
+    }
+    return render(request, 'food/index.html', context)
 
 def update_favorite_status(request, pk, type):
     """Изменение с избранными постами"""
@@ -118,13 +126,3 @@ def update_comment_status(request, pk, type):
         if type == 'delete':
             comment.delete()
 
-
-class FavoriteView(ListView):
-    """Страница с избранными постами"""
-    template_name = 'food/favorite.html'
-    queryset = Post
-    context_object_name = 'posts'
-
-    def get_queryset(self):
-        posts = self.request.user.favorite_posts.all()
-        return posts

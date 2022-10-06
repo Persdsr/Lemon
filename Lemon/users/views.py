@@ -32,7 +32,7 @@ class RegisterUserView(CreateView):
             return render(request, self.template_name, {'form': form})
 
 
-def edit_profile(request):
+def edit_settings(request):
     if request.method == 'POST':
         form = StudyForm(request.POST, request.FILES, instance=request.user)
         if form.is_valid():
