@@ -10,7 +10,7 @@ from django.forms import inlineformset_factory
 
 
 from .forms import CommentForm, CreateRecipesForm
-from .models import Post, Comment, Tags, SeasonPost, Category
+from .models import Post, Comment, Tags, SeasonPost, Category, PostStep
 from users.forms import RegisterUserForm, LoginUserForm
 
 

@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm
+from django.forms import inlineformset_factory
 
 from .models import Comment, Post, PostStep
 
@@ -17,5 +18,6 @@ class CreateRecipesForm(forms.ModelForm):
     """Форма создания рецепта"""
 
     class Meta:
-        model = Post
+        #https://www.youtube.com/watch?v=MRWFg30FmZQ
+        model = inlineformset_factory(Post, PostStep, fields=('title',))
         exclude = ('author', 'date_create', 'views', 'favorite')
