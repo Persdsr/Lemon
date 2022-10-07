@@ -1,8 +1,9 @@
+from .models import User
 from django.contrib.auth import logout, login
 from django.contrib.auth.views import LoginView
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
-from django.views.generic import CreateView
+from django.views.generic import CreateView, DetailView, TemplateView
 from django.contrib.auth.forms import UserChangeForm
 
 from .forms import LoginUserForm, RegisterUserForm, StudyForm
@@ -43,6 +44,29 @@ def edit_settings(request):
 
     args = {'form': form}
     return render(request, 'user/study.html', args)
+
+
+def about_me(request, profile_pk, profile_slug):
+    selected = 1
+    user = get_object_or_404(User, pk=profile_pk)
+
+    if profile_slug == 'posts':
+        selected = 2
+        return render(request, 'user/profile_posts.html', {'profile': user})
+
+    return render(request, 'user/about_me.html', {'profile': user, 'selected': selected})
+
+
+#def profile_posts(request, profile_pk, profile_slug):
+#    user = get_object_or_404(User, pk=profile_pk)
+#    return render(request, 'user/profile_posts.html', {'profile': user})
+
+#class (TemplateView):
+#    template_name = 'user/about_me.html'
+#
+#    def get(self, request, profile_pk, profile_slug):
+#        user = get_object_or_404(User, pk=profile_pk)
+#        return render(request, self.template_name, {'profile': user})
 
 
 def Logout(request):

@@ -7,6 +7,7 @@ from users.models import User
 
 class PostStep(models.Model):
     """Модель шагов для постов"""
+    ###IZMENIT' SET NULL NA CASCADE
     post = models.ForeignKey('Post', verbose_name='Пост', on_delete=models.SET_NULL, null=True, related_name='post_step')
     title = models.CharField(verbose_name='Название шага', max_length=50, blank=True)
     text = models.TextField(verbose_name='Текс')

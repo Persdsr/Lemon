@@ -1,0 +1,24 @@
+{% extends 'user/profile.html' %}
+{% load static %}
+
+{% block profile_content %}
+    <div class="profile__about_me">
+        <div class="about__user">
+            <h2 class="profile__title">О ПОЛЬЗОВАТЕЛЕ</h2>
+            <div class="hr"></div>
+            <ul class="profile__ul">
+                <li class="profile__info">Никнейм: <span class="profile__text">{{ profile.username }}</span></li>
+                <li class="profile__info">Дата регистрации: <span class="profile__text">{{ profile.date_joined }}</span></li>
+                <li class="profile__info">Статус: <span class="profile__text">{{ profile.group }}</span></li>
+                <li class="profile__info">Статус: <span class="profile__text">{{ profile.group }}</span></li>
+            </ul>
+            <div class="hr"></div>
+            <h2 class="profile__title">О СЕБЕ</h2>
+            <span class="profile__ul">
+                {{ profile.about_me }}
+            </span>
+            <div class="otst"></div>
+        </div>
+
+    </div>
+{% endblock %}

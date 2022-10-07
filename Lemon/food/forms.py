@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm
 
-from .models import Comment
+from .models import Comment, Post, PostStep
 
 
 class CommentForm(forms.ModelForm):
@@ -13,3 +13,9 @@ class CommentForm(forms.ModelForm):
             'text': forms.TextInput(attrs={'placeholder': 'Текст комментария', 'class': 'comments__usertext'})
         }
 
+class CreateRecipesForm(forms.ModelForm):
+    """Форма создания рецепта"""
+
+    class Meta:
+        model = Post
+        exclude = ('author', 'date_create', 'views', 'favorite')

@@ -27,10 +27,10 @@
                             <a href="{% url 'home' %}">HOME</a>
                         </li>
                         <li class="header__li">
-                            <a href="">Recipes</a>
+                            <a href="">Рецепты</a>
                             <div class="header__item-hover">
                                 <ul>
-                                    <li><a href="">RECOMMENDED</a></li>
+                                    <li><a href="{% url 'create_recipes' %}">Создать рецепт</a></li>
                                     <li><a href="">POPULAR</a></li>
                                     <li><a href="">QUICK & EASY</a></li>
                                     <li><a href="">HEALTHY</a></li>
@@ -56,7 +56,7 @@
                             <a class="" href="">{{ user.username }}</a>
                             <div class="header__item-hover">
                                 <ul>
-                                    <li><a href="">Профиль</a></li>
+                                    <li><a href="{% url 'about_me' profile_pk=user.pk profile_slug='about_me' %}">Профиль</a></li>
                                     <li><a href="{% url 'settings' %}">Настройки</a></li>
                                     <li><a href="{% url 'favorite' %}">Избранные</a></li>
                                     <li><a style="color: red" href="{% url 'logout' %}">Выйти</a></li>

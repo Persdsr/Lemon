@@ -7,7 +7,7 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView
 from django.views.generic.edit import FormMixin
 
-from .forms import CommentForm
+from .forms import CommentForm, CreateRecipesForm
 from .models import Post, Comment, Tags, SeasonPost, Category
 from users.forms import RegisterUserForm, LoginUserForm
 
@@ -90,6 +90,19 @@ class DetailFoodView(DetailView, FormMixin):
 
     def get_success_url(self, **kwargs):
         return reverse_lazy('detail_food', kwargs={'food_slug': self.get_object().slug})
+
+class CreateRecipes(CreateView):
+    template_name = 'food/create_recipes.html'
+    form_class = CreateRecipesForm
+    model = Post
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.author = self.request.user
+        self.object.save()
+        return super().form_valid(form)
+
+
 
 class FavoriteView(ListView):
     """Страница с избранными постами"""
