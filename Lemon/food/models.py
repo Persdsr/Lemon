@@ -33,6 +33,7 @@ class Tags(models.Model):
         verbose_name_plural = 'Теги'
 
 class Category(models.Model):
+    """Модель категорий"""
     name = models.CharField(verbose_name='Название', max_length=30)
     image = models.ImageField(verbose_name='Изображение', upload_to='category/')
     is_main = models.BooleanField(verbose_name='На главной', default=False)
@@ -40,6 +41,7 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
+
 
     class Meta:
         verbose_name = 'Категория'

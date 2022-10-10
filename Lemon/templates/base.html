@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 {% load static index_tags %}
+
 <html lang="ru">
 <head>
-    <title>Главная страница</title>
+    <title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css">
     <link rel="stylesheet" href="{% static 'css/style.css' %}"/>
     <meta charset="UTF-8"/>
@@ -12,81 +13,7 @@
 <div class="logo">
     <img src="{% static 'img/logo1.png' %}" alt="fds">
 </div>
-<header class="header">
-    <div class="container">
-        <div class="header__row">
-            <div>
-                <a href="{% url 'home' %}">
-                    <img src="{% static 'img/logo2.png' %}" alt="">
-                </a>
-            </div>
-            <div class="header__column">
-                <div class="header__item">
-                    <ul class="header__ul">
-                        <li class="header__li">
-                            <a href="{% url 'home' %}">HOME</a>
-                        </li>
-                        <li class="header__li">
-                            <a href="">Рецепты</a>
-                            <div class="header__item-hover">
-                                <ul>
-                                    <li><a href="{% url 'create_recipes' %}">Создать рецепт</a></li>
-                                    <li><a href="">POPULAR</a></li>
-                                    <li><a href="">QUICK & EASY</a></li>
-                                    <li><a href="">HEALTHY</a></li>
-                                    <li><a href="">NEWEST</a></li>
-                                </ul>
-                            </div>
-                        </li>
-                        {% get_category as category %}
-                        <li class="header__li">
-                            <a href="">Категории</a>
-                            <div class="header__item-hover">
-                                <ul>
-                                    {% for item in category %}
-                                        <li><a href="{% url 'category' item.slug %}">{{ item.name }}</a></li>
-                                    {% endfor %}
-                                        <li><a href="{% url 'categories' %}">Еще...</a></li>
-                                </ul>
-                            </div>
-                        </li>
-
-                        {% if user.is_authenticated %}
-                        <li class="header__li">
-                            <a class="" href="">{{ user.username }}</a>
-                            <div class="header__item-hover">
-                                <ul>
-                                    <li><a href="{% url 'about_me' profile_pk=user.pk profile_slug='about_me' %}">Профиль</a></li>
-                                    <li><a href="{% url 'settings' %}">Настройки</a></li>
-                                    <li><a href="{% url 'favorite' %}">Избранные</a></li>
-                                    <li><a style="color: red" href="{% url 'logout' %}">Выйти</a></li>
-                                </ul>
-                            </div>
-                        </li>
-                        {% endif %}
-                    </ul>
-                </div>
-            </div>
-
-            <div class="header__search">
-                <div class="header__item">
-                    <div class="header__search-block">
-                        <form action="{% url 'home' %}" class="search-form" method="get">
-                            <input type="text" class="header__search-text" placeholder="Find a recipe" name="name">
-
-                        </form>
-                    </div>
-                </div>
-            </div>
-            {% if not user.is_authenticated %}
-            <div class="header__buttons">
-                <a class="header__a" href="{% url 'register' %}"><button class="register__button">Регистрация</button></a>
-                <a class="header__a" href="{% url 'login' %}"><button class="login__button">Войти</button></a>
-            </div>
-            {% endif %}
-        </div>
-    </div>
-</header>
+{% include 'include/header.html' %}
 <div class="wrapper">
 
     {% block content %}
@@ -97,16 +24,7 @@
                 <div class="footer__logo">
                     <img src="{% static 'img/logo_5.png' %}" alt="">
                 </div>
-                <div class="footer__ul">
-                    <ul>
-                        <li><a href="">HOME</a></li>
-                        <li><a href="">Recipes</a></li>
-                        <li><a href="">Photo Galleries</a></li>
-                        <li><a href="">Videos</a></li>
-                        <li><a href="">All Categories</a></li>
-                    </ul>
-                </div>
-                <a href="" class="footer__ctulhu">2016-2017 LEMON. All right reserved</a>
+                <a href="" class="footer__ctulhu">телега</a>
             </div>
         </div>
     </footer>

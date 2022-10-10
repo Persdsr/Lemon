@@ -1,12 +1,14 @@
-{% extends 'user/profile.html' %}
+{% extends 'user/profile/profile.html' %}
 {% load static %}
+
+{% block title %}Посты {{ post.author }}{% endblock %}
 
 {% block profile_content %}
     {% if posts %}
     <section class="triple">
         <div class="container">
             <div class="triple__row">
-                {% for post in profile.post_author.all %}
+                {% for post in posts %}
                     <div class="triple__column">
                         <div class="triple__item">
                             <a href="{{ post.get_absolute_url }}"><img class="triple__img3"
@@ -19,10 +21,7 @@
                                          alt="">
                                 </div>
                                 <span class="span__text">{{ post.time_preparing }}</span>
-                                <div class="triple__info-comment">
-                                    <img src="{% static 'img/comment_120216.png' %}" alt="">
-                                </div>
-                                <span class="span__text">{{ post.post_comment.all.count }}</span>
+
                                 <div class="triple__info-glazok">
                                     <img src="{% static 'img/seo-social-web-network-internet_232_icon-icons.com_61542 (1).png' %}"
                                          alt="">

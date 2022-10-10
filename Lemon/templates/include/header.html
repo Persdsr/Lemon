@@ -1,0 +1,77 @@
+{% load static index_tags cache %}
+
+{% cache 600 header %}
+<header class="header">
+    <div class="container">
+        <div class="header__row">
+            <div>
+                <a href="{% url 'home' %}">
+                    <img src="{% static 'img/logo2.png' %}" alt="">
+                </a>
+            </div>
+            <div class="header__column">
+                <div class="header__item">
+                    <ul class="header__ul">
+                        <li class="header__li">
+                            <a href="{% url 'home' %}">HOME</a>
+                        </li>
+                        <li class="header__li">
+                            <a href="">Рецепты</a>
+                            <div class="header__item-hover">
+                                <ul>
+                                    <li><a href="">POPULAR</a></li>
+                                    <li><a href="">QUICK & EASY</a></li>
+                                    <li><a href="">HEALTHY</a></li>
+                                    <li><a href="">NEWEST</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        {% get_category as category %}
+                        <li class="header__li">
+                            <a href="">Категории</a>
+                            <div class="header__item-hover">
+                                <ul>
+                                    {% for item in category %}
+                                        <li><a href="{% url 'category' item.slug %}">{{ item.name }}</a></li>
+                                    {% endfor %}
+                                        <li><a href="{% url 'categories' %}">Еще...</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    {% endcache %}
+                        {% if user.is_authenticated %}
+                        <li class="header__li">
+                            <a class="" href="">{{ user.username }}</a>
+                            <div class="header__item-hover">
+                                <ul>
+                                    <li><a href="{% url 'about_me' profile_pk=user.pk profile_slug='about_me' %}">Профиль</a></li>
+                                    <li><a href="{% url 'settings' %}">Настройки</a></li>
+                                    <li><a href="{% url 'favorite' %}">Избранные</a></li>
+                                    <li><a style="color: red" href="{% url 'logout' %}">Выйти</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+
+            <div class="header__search">
+                <div class="header__item">
+                    <div class="header__search-block">
+                        <form action="{% url 'home' %}" class="search-form" method="get">
+                            <input type="text" class="header__search-text" placeholder="Найти рецепт" name="name">
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {% if not user.is_authenticated %}
+            <div class="header__buttons">
+                <a class="header__a" href="{% url 'register' %}"><button class="register__button">Регистрация</button></a>
+                <a class="header__a" href="{% url 'login' %}"><button class="login__button">Войти</button></a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</header>

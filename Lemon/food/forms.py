@@ -16,8 +16,6 @@ class CommentForm(forms.ModelForm):
 
 class CreateRecipesForm(forms.ModelForm):
     """Форма создания рецепта"""
-
     class Meta:
-        #https://www.youtube.com/watch?v=MRWFg30FmZQ
-        model = inlineformset_factory(Post, PostStep, fields=('title',))
+        model = Post
         exclude = ('author', 'date_create', 'views', 'favorite')

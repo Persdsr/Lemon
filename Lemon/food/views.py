@@ -1,17 +1,12 @@
-from django.contrib.auth import login, logout
-from django.contrib.auth.views import LoginView
 from django.db.models import Q
-from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView
 from django.views.generic.edit import FormMixin
-from django.forms import inlineformset_factory
 
 
-from .forms import CommentForm, CreateRecipesForm
-from .models import Post, Comment, Tags, SeasonPost, Category, PostStep
-from users.forms import RegisterUserForm, LoginUserForm
+from .forms import CommentForm
+from .models import Post, Comment, Tags, SeasonPost, Category
 
 
 class HomeView(ListView):
@@ -31,18 +26,18 @@ class HomeView(ListView):
     def get_queryset(self):
         """Изменения квери если в запросе есть теги или категории и поиск постов"""
         if self.kwargs.get('tags_slug'):
-            post = Post.objects.order_by('?').filter(tags__slug=self.kwargs.get('tags_slug')).order_by('-date_create')
+            post = Post.objects.order_by('?').filter(tags__slug=self.kwargs.get('tags_slug')).order_by('-date_create').select_related('category').prefetch_related('views')
 
         elif 'name' in self.request.GET:
             post = Post.objects.filter(
-                Q(title__in=self.request.GET.getlist('name')) | (Q(title__iregex=self.request.GET.get('name'))))
+                Q(title__in=self.request.GET.getlist('name')) | (Q(title__iregex=self.request.GET.get('name')))).select_related('category').prefetch_related('views')
         else:
-            post = Post.objects.order_by('-date_create')
+            post = Post.objects.order_by('-date_create').select_related('category').prefetch_related('views')
         return post
 
 
 class CategoryTagView(ListView):
-    """Главная страница"""
+    """Страница с категориями"""
     model = Category
     template_name = 'food/category.html'
     context_object_name = 'categories'
@@ -50,7 +45,7 @@ class CategoryTagView(ListView):
     def get_queryset(self):
         post = Category.objects.order_by('?')
         if self.kwargs.get('category_slug'):
-            post = Post.objects.filter(category__slug=self.kwargs.get('category_slug'))
+            post = Post.objects.filter(category__slug=self.kwargs.get('category_slug')).select_related('category')
         return post
 
 
@@ -61,6 +56,11 @@ class DetailFoodView(DetailView, FormMixin):
     context_object_name = 'post'
     slug_url_kwarg = 'food_slug'
     form_class = CommentForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['comments'] = Comment.objects.filter(post__slug=self.kwargs['food_slug'])
+        return context
 
     def get_object(self):
         """Функция для подсчета просмотров через логин клиента или через его IP"""
@@ -93,18 +93,6 @@ class DetailFoodView(DetailView, FormMixin):
     def get_success_url(self, **kwargs):
         return reverse_lazy('detail_food', kwargs={'food_slug': self.get_object().slug})
 
-class CreateRecipes(CreateView):
-    template_name = 'food/create_recipes.html'
-    form_class = CreateRecipesForm
-    model = Post
-
-    def form_valid(self, form):
-        self.object = form.save(commit=False)
-        self.object.author = self.request.user
-        self.object.save()
-        return super().form_valid(form)
-
-
 
 class FavoriteView(ListView):
     """Страница с избранными постами"""
@@ -113,7 +101,7 @@ class FavoriteView(ListView):
     context_object_name = 'posts'
 
     def get_queryset(self):
-        posts = self.request.user.favorite_posts.all()
+        posts = self.request.user.favorite_posts.all().select_related('category')
         return posts
 
 def save_favorite(request, pk):

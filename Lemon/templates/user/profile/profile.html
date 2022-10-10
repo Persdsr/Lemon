@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="container">
+        <div class="profile">
+            <div class="profile__header">
+                {% if profile.profile_image %}
+                    <img src="{{ profile.profile_image.url }}" alt="" class="profile__full_image">
+                {% else %}
+                    <img src="https://e2.edimdoma.ru/assets/default/users/covers/ed4_cover_2-8b5b043edb0d4a032b90497c8600c895e96df7c159bbd0ab648824791cc4f452.jpg"
+                         alt="" class="profile__full_image">
+                {% endif %}
+                <div class="left__inf">
+                    {% if profile.avatar %}
+                        <img src="{{ profile.avatar.url }}" alt="" class="profile__image">{% endif %}
+                    <p class="profile__username">{{ profile.username }}</p>
+                </div>
+            </div>
+            <section class="profile__menu">
+                <div class="profile__menu_body">
+                    <ul>
+                        <li>
+                            <a href="{% url 'about_me' profile_pk=profile.pk profile_slug='about_me' %}">О себе</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'about_me' profile_pk=profile.pk profile_slug='posts' %}">Посты</a>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+            <div class="profile__content">
+                {% block profile_content %}
+
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

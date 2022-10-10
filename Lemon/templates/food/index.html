@@ -2,7 +2,7 @@
 {% load index_tags %}
 {% load static %}
 
-
+{% block title %}Главная страница{% endblock %}
 
 {% block content %}
 
@@ -53,10 +53,9 @@
                                              alt="">
                                     </div>
                                     <span class="span__text">{{ post.time_preparing }}</span>
-                                    <div class="triple__info-comment">
+                                    <!--<div class="triple__info-comment">
                                         <img src="{% static 'img/comment_120216.png' %}" alt="">
-                                    </div>
-                                    <span class="span__text">{{ post.post_comment.all.count }}</span>
+                                    </div>-->
                                     <div class="triple__info-glazok">
                                         <img src="{% static 'img/seo-social-web-network-internet_232_icon-icons.com_61542 (1).png' %}"
                                              alt="">
@@ -76,12 +75,12 @@
             </div>
         </section>
 
-        {% for item in categories %}
+        {% for category in categories %}
             <section class="triple">
                 <div class="container">
-                    <a href="{% url 'category' category_slug=item.slug %}"><h2 class="my__h2">{{ item.name }}</h2></a>
+                    <a href="{% url 'category' category_slug=category.slug %}"><h2 class="my__h2">{{ category.name }}</h2></a>
                     <div class="triple__row">
-                        {% for post in item.post_category.all %}
+                        {% for post in category.post_category.all %}
                             {% if not forloop.counter == 4 %}
                                 <div class="triple__column">
                                     <div class="triple__item">
@@ -95,10 +94,10 @@
                                                      alt="">
                                             </div>
                                             <span class="span__text">{{ post.time_preparing }}</span>
-                                            <div class="triple__info-comment">
+                                            <!--<div class="triple__info-comment">
                                                 <img src="{% static 'img/comment_120216.png' %}" alt="">
-                                            </div>
-                                            <span class="span__text">{{ post.post_comment.all.count }}</span>
+                                            </div>-->
+
                                             <div class="triple__info-glazok">
                                                 <img src="{% static 'img/seo-social-web-network-internet_232_icon-icons.com_61542 (1).png' %}"
                                                      alt="">
@@ -129,7 +128,7 @@
                         </div>
                         <div class="overflow__column">
                             <div class="overflow__item">
-                                <h3 class="overflow__title">{{ season.title }}</h3>
+                                <a href="{{ season.get_absolute_url }}"><h3 class="overflow__title">{{ season.title }}</h3></a>
                                 <div class="overflow__info">
                                     <div class="overflow__left">
                                         <div class="overflow__left_clock">

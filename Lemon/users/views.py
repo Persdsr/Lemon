@@ -1,3 +1,5 @@
+from food.models import Post
+
 from .models import User
 from django.contrib.auth import logout, login
 from django.contrib.auth.views import LoginView
@@ -6,10 +8,11 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, TemplateView
 from django.contrib.auth.forms import UserChangeForm
 
-from .forms import LoginUserForm, RegisterUserForm, StudyForm
+from .forms import LoginUserForm, RegisterUserForm, StudyForm, ContactForm
 
 
 class LoginUserView(LoginView):
+    """Логин"""
     form_class = LoginUserForm
     template_name = 'user/login.html'
 
@@ -18,6 +21,7 @@ class LoginUserView(LoginView):
 
 
 class RegisterUserView(CreateView):
+    """Регистрация"""
     template_name = 'user/register.html'
     form_class = RegisterUserForm
     success_url = reverse_lazy('home')
@@ -34,6 +38,7 @@ class RegisterUserView(CreateView):
 
 
 def edit_settings(request):
+    """Настройки"""
     if request.method == 'POST':
         form = StudyForm(request.POST, request.FILES, instance=request.user)
         if form.is_valid():
@@ -47,28 +52,29 @@ def edit_settings(request):
 
 
 def about_me(request, profile_pk, profile_slug):
-    selected = 1
+    """Профиль"""
     user = get_object_or_404(User, pk=profile_pk)
+    posts = Post.objects.filter(author=user).select_related('category')
 
     if profile_slug == 'posts':
-        selected = 2
-        return render(request, 'user/profile_posts.html', {'profile': user})
+        return render(request, 'user/profile/profile_posts.html', {'profile': user,'posts': posts})
 
-    return render(request, 'user/about_me.html', {'profile': user, 'selected': selected})
-
-
-#def profile_posts(request, profile_pk, profile_slug):
-#    user = get_object_or_404(User, pk=profile_pk)
-#    return render(request, 'user/profile_posts.html', {'profile': user})
-
-#class (TemplateView):
-#    template_name = 'user/about_me.html'
-#
-#    def get(self, request, profile_pk, profile_slug):
-#        user = get_object_or_404(User, pk=profile_pk)
-#        return render(request, self.template_name, {'profile': user})
+    return render(request, 'user/profile/about_me.html', {'profile': user, 'posts': posts})
 
 
 def Logout(request):
     logout(request)
     return redirect('home')
+
+
+class ContactView(CreateView):
+    """Рассылка сообщений"""
+    model = Contact
+    form_class = ContactForm
+    success_url = '/'
+    template_name = 'user/contact.html'
+
+    def form_valid(self, form):
+        form.save()
+        send(form.instance.email)
+        return super().form_valid(form)

@@ -8,9 +8,9 @@ urlpatterns = [
     path('tags/<slug:tags_slug>/', views.HomeView.as_view(), name='tags_home'),
     path('category/<slug:category_slug>/', views.CategoryTagView.as_view(), name='category'),
     path('categories/', views.CategoryTagView.as_view(), name='categories'),
-    path('categories/', views.CategoryTagView.as_view(), name='categories'),
     path('favorite/', views.FavoriteView.as_view(), name='favorite'),
-    path('create/', views.CreateRecipes.as_view(), name='create_recipes'),
+    #path('create/', views.CreateRecipes.as_view(), name='create_recipes'),
+    #path('create/<int:post_id>/', views.create_step, name='create_step'),
     path('account/', include('users.urls')),
 
     ##ajax

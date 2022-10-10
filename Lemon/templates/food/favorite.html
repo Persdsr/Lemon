@@ -2,6 +2,8 @@
 
 {% load static %}
 
+{% block title %}Избранное{% endblock %}
+
 {% block content %}
     <section class="triple">
         <div class="container">
@@ -17,10 +19,7 @@
                                 <img src="{% static 'img/clock_hour_minute_second_time_timer_watch_icon_123193.png' %}" alt="">
                             </div>
                             <span class="span__text">{{ post.time_preparing }}</span>
-                            <div class="triple__info-comment">
-                                <img src="{% static 'img/comment_120216.png' %}" alt="">
-                            </div>
-                            <span class="span__text">{{ post.post_comment.all.count }}</span>
+
                             <div class="triple__info-glazok">
                                 <img src="{% static 'img/seo-social-web-network-internet_232_icon-icons.com_61542 (1).png' %}"
                                      alt="">
