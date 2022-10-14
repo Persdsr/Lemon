@@ -23,6 +23,8 @@ class HomeView(ListView):
         context['categories'] = Category.objects.filter(is_main=True)
         return context
 
+
+
     def get_queryset(self):
         """Изменения квери если в запросе есть теги или категории и поиск постов"""
         if self.kwargs.get('tags_slug'):

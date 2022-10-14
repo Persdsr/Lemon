@@ -7,14 +7,16 @@ class RegisterUserForm(UserCreationForm):
     """Форма регистраций"""
     username = forms.CharField(label='', widget=forms.TextInput(attrs={'class': 'forms__userName input-default', 'placeholder':'Логин'}))
     email = forms.EmailField(label='', widget=forms.EmailInput(attrs={'class': 'forms__userMail input-default', 'placeholder':'Почта'}))
+    first_name = forms.CharField(label='', widget=forms.TextInput(attrs={'class': 'forms__userName input-default', 'placeholder':'Имя'}))
+    last_name = forms.CharField(label='', widget=forms.TextInput(attrs={'class': 'forms__userName input-default', 'placeholder':'Фамилия'}))
     password1 = forms.CharField(label='', widget=forms.PasswordInput(attrs={'class': 'forms__userPass input-default', 'placeholder':'Пароль'}))
     password2 = forms.CharField(label='', widget=forms.PasswordInput(attrs={'class': 'forms__userPass input-default', 'placeholder':'Повтор пароля'}))
 
-    field_order = ('username', 'email', 'password1', 'password2')
+    field_order = ('username', 'email', 'first_name', 'last_name', 'password1', 'password2')
 
     class Meta:
         model = User
-        fields = ('username', 'email', 'password1', 'password2')
+        fields = ('username', 'email', 'password1', 'password2', 'first_name', 'last_name',)
 
 class StudyForm(UserChangeForm):
     """Форма настроек"""
@@ -40,9 +42,4 @@ class LoginUserForm(AuthenticationForm):
     password = forms.CharField(label='', widget=forms.PasswordInput(
         attrs={'class': 'forms__userPass input-default', 'placeholder': 'Пароль'}))
 
-
-class ContactForm(forms.ModelForm):
-    """Форма рассылки"""
-    model = Contact
-    fields = '__all__'
 

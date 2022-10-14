@@ -65,6 +65,10 @@ a:hover {
     color: black;
 }
 
+.black__a{
+    color: black;
+}
+
 ul li {
     list-style: none;
 }
@@ -288,12 +292,10 @@ body {
 
 .header__search {
     margin-left: 20px;
-
+    margin-top: 8px;
 }
 
 .register__button {
-    margin-right: 15px;
-    margin-left: 10px;
     margin: 15px 15px 0 10px;
     padding: 10px 20px;
     border-radius: 20px;
@@ -2013,7 +2015,7 @@ label {
 
 .profile__header {
     width: 100%;
-    height: 400px;
+    height: 450px;
     position: relative;
 }
 
@@ -2041,7 +2043,7 @@ label {
     height: 100%;
     display: flex;
     position: absolute;
-    top: 430px;
+    top: 470px;
 }
 
 .profile__content {
@@ -2173,6 +2175,10 @@ label {
 }
 
 .center__title{
+    text-align: center;
+}
+
+.center__text{
     margin: auto auto;
 }
 

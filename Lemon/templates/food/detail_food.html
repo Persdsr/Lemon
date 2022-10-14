@@ -6,6 +6,7 @@
 {% block content %}
     <section class="single-post spad">
         <div class="container">
+            <h1 class="my__h2 center__title">{{ post.title }}</h1>
             <img class="post__image" src="{{ post.image.url }}">
 
             <div class="overflow__right">
@@ -51,11 +52,7 @@
             <form class="comments__user" action="" method="post">
                 {% csrf_token %}
                 <div class="comments__usericon">
-                    {% if user.avatar %}
-                        <img class="image__comment" src="{{ user.avatar.url }}" alt="">
-                    {% else %}
-                        <img class="image__comment" src="{% static 'img/default_user.png' %}" alt="">
-                    {% endif %}
+                        <img class="image__comment" src="{{ user.get_image_url }}" alt="">
                 </div>
                 {{ form }}
                 <button class="comments__button"><span>Отравить</span></button>
@@ -71,7 +68,7 @@
                 </div>
 
                 <div class="comment_content">
-                    <a class="black__a" href="{% url 'about_me' profile_pk=comment.author.pk profile_slug='about_me' %}"><span class="comment__author">{{ comment.author }}</span></a>
+                    <span class="comment__author"><a class="black__a" href="{% url 'about_me' profile_pk=comment.author.pk profile_slug='about_me' %}">{{ comment.author }}</a></span>
                     <span class="comment__date">{{ comment.date }}</span>
                     {% if request.user.is_superuser or request.user == comment.author %}
                     <a href="{% url 'detail_food' food_slug=post.slug %}" data-url="{% url 'update_comment_status' pk=comment.pk type='delete' %}" class="comment__delete">Удалить</a>

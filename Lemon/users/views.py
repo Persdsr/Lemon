@@ -1,14 +1,14 @@
+from .service.share import send
 from food.models import Post
 
-from .models import User
+from .models import User, Contact
 from django.contrib.auth import logout, login
 from django.contrib.auth.views import LoginView
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, DetailView, TemplateView
-from django.contrib.auth.forms import UserChangeForm
+from django.views.generic import CreateView
 
-from .forms import LoginUserForm, RegisterUserForm, StudyForm, ContactForm
+from .forms import LoginUserForm, RegisterUserForm, StudyForm
 
 
 class LoginUserView(LoginView):
@@ -32,6 +32,7 @@ class RegisterUserView(CreateView):
             user = form.save(commit=False)
             user.save()
             login(self.request, user)
+            send(form.instance.email, form.instance.username)
             return redirect('home')
         else:
             return render(request, self.template_name, {'form': form})
@@ -65,16 +66,3 @@ def about_me(request, profile_pk, profile_slug):
 def Logout(request):
     logout(request)
     return redirect('home')
-
-
-class ContactView(CreateView):
-    """Рассылка сообщений"""
-    model = Contact
-    form_class = ContactForm
-    success_url = '/'
-    template_name = 'user/contact.html'
-
-    def form_valid(self, form):
-        form.save()
-        send(form.instance.email)
-        return super().form_valid(form)

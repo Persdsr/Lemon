@@ -13,7 +13,10 @@
                 {% endif %}
                 <div class="left__inf">
                     {% if profile.avatar %}
-                        <img src="{{ profile.avatar.url }}" alt="" class="profile__image">{% endif %}
+                        <img src="{{ profile.avatar.url }}" alt="" class="profile__image">
+                    {% else %}
+                        <img src="{% static 'img/default_avatar.jpg' %}" alt="" class="profile__image">
+                    {% endif %}
                     <p class="profile__username">{{ profile.username }}</p>
                 </div>
             </div>
