@@ -43,3 +43,4 @@ class LoginUserForm(AuthenticationForm):
         attrs={'class': 'forms__userPass input-default', 'placeholder': 'Пароль'}))
 
 
+
