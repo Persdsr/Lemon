@@ -52,9 +52,9 @@ def edit_settings(request):
     return render(request, 'user/study.html', args)
 
 
-def about_me(request, profile_pk, profile_slug):
+def about_me(request, user_slug, profile_slug):
     """Профиль"""
-    user = get_object_or_404(User, pk=profile_pk)
+    user = get_object_or_404(User, username=user_slug)
     posts = Post.objects.filter(author=user).select_related('category')
 
     if profile_slug == 'posts':

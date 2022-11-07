@@ -24,10 +24,10 @@
                 <div class="profile__menu_body">
                     <ul>
                         <li>
-                            <a href="{% url 'about_me' profile_pk=profile.pk profile_slug='about_me' %}">О себе</a>
+                            <a href="{% url 'about_me' user_slug=profile.username profile_slug='about_me' %}">О себе</a>
                         </li>
                         <li>
-                            <a href="{% url 'about_me' profile_pk=profile.pk profile_slug='posts' %}">Посты</a>
+                            <a href="{% url 'about_me' user_slug=profile.username profile_slug='posts' %}">Посты</a>
                         </li>
                     </ul>
                 </div>

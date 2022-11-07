@@ -4,7 +4,6 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import FormMixin
 
-
 from .forms import CommentForm
 from .models import Post, Comment, Tags, SeasonPost, Category
 
@@ -23,16 +22,16 @@ class HomeView(ListView):
         context['categories'] = Category.objects.filter(is_main=True)
         return context
 
-
-
     def get_queryset(self):
         """Изменения квери если в запросе есть теги или категории и поиск постов"""
         if self.kwargs.get('tags_slug'):
-            post = Post.objects.order_by('?').filter(tags__slug=self.kwargs.get('tags_slug')).order_by('-date_create').select_related('category').prefetch_related('views')
+            post = Post.objects.order_by('?').filter(tags__slug=self.kwargs.get('tags_slug')).order_by(
+                '-date_create').select_related('category').prefetch_related('views')
 
         elif 'name' in self.request.GET:
             post = Post.objects.filter(
-                Q(title__in=self.request.GET.getlist('name')) | (Q(title__iregex=self.request.GET.get('name')))).select_related('category').prefetch_related('views')
+                Q(title__in=self.request.GET.getlist('name')) | (
+                    Q(title__iregex=self.request.GET.get('name')))).select_related('category').prefetch_related('views')
         else:
             post = Post.objects.order_by('-date_create').select_related('category').prefetch_related('views')
         return post
@@ -106,6 +105,7 @@ class FavoriteView(ListView):
         posts = self.request.user.favorite_posts.all().select_related('category')
         return posts
 
+
 def save_favorite(request, pk):
     """Сохранить избранные посты"""
     user = request.user
@@ -116,6 +116,7 @@ def save_favorite(request, pk):
         'posts': Post.objects.all()
     }
     return render(request, 'food/index.html', context)
+
 
 def update_favorite_status(request, pk, type):
     """Изменение с избранными постами"""
@@ -130,4 +131,3 @@ def update_comment_status(request, pk, type):
     if request.user.is_superuser or request.user == comment.author:
         if type == 'delete':
             comment.delete()
-

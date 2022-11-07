@@ -8,7 +8,7 @@
         <section class="forms">
         <div class="forms__column">
             <div class="forms__item">
-                <a href="{% provider_login_url "google" %}?next={{ request.get_full_path }}">Google</a>
+                <a href="{% provider_login_url "google" %}">Google</a>
                 <div class="blockname-2">Sign in</div>
                 <div class="forms__title">Sign in for LEMON</div>
                 <form class="forms__register-form" action="{% url 'login' %}" method="post">

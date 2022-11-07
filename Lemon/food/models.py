@@ -8,7 +8,8 @@ from users.models import User
 class PostStep(models.Model):
     """Модель шагов для постов"""
     ###IZMENIT' SET NULL NA CASCADE
-    post = models.ForeignKey('Post', verbose_name='Пост', on_delete=models.SET_NULL, null=True, related_name='post_step')
+    post = models.ForeignKey('Post', verbose_name='Пост', on_delete=models.SET_NULL, null=True,
+                             related_name='post_step')
     title = models.CharField(verbose_name='Название шага', max_length=50, blank=True)
     text = models.TextField(verbose_name='Текс')
     image = models.ImageField(verbose_name='Изображение', upload_to='post_step/', blank=True, null=True)
@@ -19,6 +20,7 @@ class PostStep(models.Model):
     class Meta:
         verbose_name = 'Шаг'
         verbose_name_plural = 'Шаги'
+
 
 class Tags(models.Model):
     """Теги постов"""
@@ -32,6 +34,7 @@ class Tags(models.Model):
         verbose_name = 'Тег'
         verbose_name_plural = 'Теги'
 
+
 class Category(models.Model):
     """Модель категорий"""
     name = models.CharField(verbose_name='Название', max_length=30)
@@ -42,10 +45,10 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
-
     class Meta:
         verbose_name = 'Категория'
         verbose_name_plural = 'Категории'
+
 
 class Post(models.Model):
     """Модель постов"""
@@ -58,8 +61,10 @@ class Post(models.Model):
     time_preparing = models.CharField(verbose_name='Время приготовления', max_length=10)
     tags = models.ManyToManyField(Tags, related_name='post_tags', blank=True)
     views = models.ManyToManyField(User, verbose_name='post_views', blank=True, related_name='post_views')
-    favorite = models.ManyToManyField(User, verbose_name='Добавившие в избранное', blank=True, related_name='favorite_posts')
-    category = models.ForeignKey(Category, verbose_name='Категория', related_name='post_category', on_delete=models.CASCADE)
+    favorite = models.ManyToManyField(User, verbose_name='Добавившие в избранное', blank=True,
+                                      related_name='favorite_posts')
+    category = models.ForeignKey(Category, verbose_name='Категория', related_name='post_category',
+                                 on_delete=models.CASCADE)
     slug = models.SlugField(verbose_name='URL')
 
     def get_absolute_url(self):
@@ -77,6 +82,7 @@ class Post(models.Model):
         verbose_name_plural = 'Посты'
         ordering = ('-date_create',)
 
+
 class SeasonPost(Post):
     """Модель сезонных постов"""
     season_list = (
@@ -90,6 +96,7 @@ class SeasonPost(Post):
     class Meta:
         verbose_name = 'Сезонный пост'
         verbose_name_plural = 'Сезонные посты'
+
 
 class Comment(models.Model):
     """Комментарии к постам"""
@@ -106,9 +113,3 @@ class Comment(models.Model):
         verbose_name_plural = 'Комменты'
         ordering = ('-date',)
 
-#class Ip(models.Model):
-#    """Модель для сохранения IP пользователя"""
-#    ip = models.CharField(max_length=100)
-#
-#    def __str__(self):
-#        return self.ip
